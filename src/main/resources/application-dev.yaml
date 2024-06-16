@@ -6,4 +6,4 @@ spring:
       discovery:
         serviceId: ead-config-server
       username: configserver
-      password: 'ead123cs'
+      password: 'ead123'
