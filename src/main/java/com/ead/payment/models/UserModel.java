@@ -2,10 +2,14 @@ package com.ead.payment.models;
 
 import com.ead.payment.enums.PaymentStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -38,6 +42,11 @@ public class UserModel implements Serializable {
     private LocalDateTime firstPaymentDate;
     @Column
     private LocalDateTime lastPaymentDate;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY )
+    @Fetch(FetchMode.SUBSELECT)
+    private Set<PaymentModel> payments;
 
     public UUID getUserId() {
         return userId;
@@ -125,5 +134,13 @@ public class UserModel implements Serializable {
 
     public void setLastPaymentDate(LocalDateTime lastPaymentDate) {
         this.lastPaymentDate = lastPaymentDate;
+    }
+
+    public Set<PaymentModel> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(Set<PaymentModel> payments) {
+        this.payments = payments;
     }
 }
