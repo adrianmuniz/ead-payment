@@ -1,9 +1,11 @@
 package com.ead.payment.models;
 
+import com.ead.payment.enums.PaymentStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -26,6 +28,16 @@ public class UserModel implements Serializable {
     private String cpf;
     @Column(length = 20)
     private String phoneNumber;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus paymentStatus;
+    @Column
+    private LocalDateTime paymentExpirationDate;
+    @Column
+    private LocalDateTime firstPaymentDate;
+    @Column
+    private LocalDateTime lastPaymentDate;
 
     public UUID getUserId() {
         return userId;
@@ -81,5 +93,37 @@ public class UserModel implements Serializable {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public PaymentStatus getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(PaymentStatus paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
+    public LocalDateTime getPaymentExpirationDate() {
+        return paymentExpirationDate;
+    }
+
+    public void setPaymentExpirationDate(LocalDateTime paymentExpirationDate) {
+        this.paymentExpirationDate = paymentExpirationDate;
+    }
+
+    public LocalDateTime getFirstPaymentDate() {
+        return firstPaymentDate;
+    }
+
+    public void setFirstPaymentDate(LocalDateTime firstPaymentDate) {
+        this.firstPaymentDate = firstPaymentDate;
+    }
+
+    public LocalDateTime getLastPaymentDate() {
+        return lastPaymentDate;
+    }
+
+    public void setLastPaymentDate(LocalDateTime lastPaymentDate) {
+        this.lastPaymentDate = lastPaymentDate;
     }
 }
