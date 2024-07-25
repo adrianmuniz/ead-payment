@@ -9,4 +9,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface CreditCardRepository extends JpaRepository<CreditCardModel, UUID>, JpaSpecificationExecutor<CreditCardModel> {
+    Optional<CreditCardModel> findByUser(UserModel userModel);
 }
