@@ -13,6 +13,7 @@ import javax.persistence.criteria.Root;
 import java.util.Collection;
 import java.util.UUID;
 
+
 public class SpecificationTemplate {
 
     @And({
@@ -22,4 +23,14 @@ public class SpecificationTemplate {
             @Spec(path = "paymentMessage", spec = Like.class)
     })
     public interface PaymentSpec extends Specification<PaymentModel> {}
+
+    public static Specification<PaymentModel> paymentUserId(final UUID userId) {
+        return (root, query, cb) -> {
+            query.distinct(true);
+            Root<PaymentModel> payment = root;
+            Root<UserModel> user = query.from(UserModel.class);
+            Expression<Collection<PaymentModel>> usersPayments = user.get("payments");
+            return cb.and(cb.equal(user.get("userId"), userId), cb.isMember(payment, usersPayments));
+        };
+    }
 }
