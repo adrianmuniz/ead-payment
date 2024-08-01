@@ -62,4 +62,15 @@ public class PaymentController {
                                                              @PageableDefault(page = 0, size = 10, sort = "paymentId", direction = Sort.Direction.DESC) Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(paymentService.findAllByUser(SpecificationTemplate.paymentUserId(userId).and(spec), pageable));
     }
+
+    @PreAuthorize("hasAnyRole('USER')")
+    @GetMapping("/users/{userId}/payments/{paymentId}")
+    public ResponseEntity<Object> getOnePayment(@PathVariable(value="userId") UUID userId,
+                                                @PathVariable(value="paymentId") UUID paymentId){
+        Optional<PaymentModel> paymentModelOptional = paymentService.findPaymentByUser(userId, paymentId);
+        if(paymentModelOptional.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Payment not found for this user.");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(paymentModelOptional.get());
+    }
 }

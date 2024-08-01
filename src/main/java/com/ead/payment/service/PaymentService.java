@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public interface PaymentService {
     PaymentModel requestPayment(PaymentRequestDto paymentRequestDto, UserModel userModel);
@@ -16,4 +17,6 @@ public interface PaymentService {
     Optional<PaymentModel> findLastPaymentByUser(UserModel userModel);
 
     Page<PaymentModel> findAllByUser(Specification<PaymentModel> spec, Pageable pageable);
+
+    Optional<PaymentModel> findPaymentByUser(UUID userId, UUID paymentId);
 }
